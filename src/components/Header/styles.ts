@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const HeaderContainer = styled.div`
   width: 100%;
-  max-width: 90rem;
+  max-width: 80rem;
   padding: 2rem;
 
   position: fixed;

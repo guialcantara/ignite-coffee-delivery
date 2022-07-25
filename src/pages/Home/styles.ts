@@ -5,8 +5,6 @@ interface QualityItemProps {
 }
 
 export const HomeContainer = styled.main`
-  margin-top: 4rem;
-
   & > h2 {
     font-size: 2rem;
     font-family: 'baloo 2', sans-serif;

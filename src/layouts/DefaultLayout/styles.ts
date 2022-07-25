@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const LayoutContainer = styled.div`
-  max-width: 90rem;
+  max-width: 80rem;
   margin: 0 auto;
   height: 100vh;
   display: flex;
@@ -10,7 +10,7 @@ export const LayoutContainer = styled.div`
   position: relative;
 `
 export const ContentContainer = styled.div`
-  margin-top: 5rem;
+  margin-top: 7rem;
   padding: 0 2rem;
   width: 100%;
 `

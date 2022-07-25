@@ -58,8 +58,8 @@ export function CoffeeCard({
           amount={amount}
           changeAmount={(amount: number) => setAmount(amount)}
         />
-        <CartButton>
-          <ShoppingCartSimple onClick={handleAddItem} size={24} weight="fill" />
+        <CartButton onClick={handleAddItem}>
+          <ShoppingCartSimple size={24} weight="fill" />
         </CartButton>
       </Footer>
     </CardContainer>
