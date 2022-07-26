@@ -1,4 +1,5 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CartContext } from '../../contexts/CartContext'
 import {
   Bank,
@@ -18,13 +19,78 @@ import {
   PaymentTypeButton,
   TextInput,
 } from './styles'
-import { CartItemCard } from '../../components/CartItemCard'
+import { CartItemCard } from './components/CartItemCard'
+import { useForm } from 'react-hook-form'
+import * as zod from 'zod'
 
+const orderFormValidationSchema = zod.object({
+  cep: zod.string().min(1, 'Informe o cep'),
+  rua: zod.string().min(1, 'Informe a rua'),
+  bairro: zod.string().min(1, 'Informe o bairro'),
+  cidade: zod.string().min(1, 'Informe a cidade'),
+  uf: zod.string().min(1, 'Informe o estado'),
+  numero: zod.number().min(0, 'Informe o numero'),
+  complemento: zod.string().optional(),
+})
+
+type NewOrderFormData = zod.infer<typeof orderFormValidationSchema>
+
+export enum PaymentTypes {
+  CREDIT = 'cartão de crédito',
+  DEBIT = 'cartão de debito',
+  MONEY = 'dinheiro',
+}
 export function Cart() {
-  const { cartItems } = useContext(CartContext)
+  const [payment, setPayment] = useState(PaymentTypes.CREDIT)
+  const { cartItems, createNewOrder } = useContext(CartContext)
 
+  const { register, handleSubmit, reset } = useForm<NewOrderFormData>({
+    resolver: zodResolver(orderFormValidationSchema),
+    defaultValues: {
+      cep: '',
+      rua: '',
+      bairro: '',
+      cidade: '',
+      uf: '',
+      complemento: '',
+      numero: undefined,
+    },
+  })
+
+  function handleCreateNewOrder(data: NewOrderFormData) {
+    createNewOrder({
+      rua: data.rua,
+      numero: data.numero,
+      bairro: data.bairro,
+      cidade: data.cidade,
+      uf: data.uf,
+      payment,
+    })
+    reset()
+  }
+
+  const deliveryValue = 3.3
+
+  const deliveryValueFormatted = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(deliveryValue)
+
+  const totalItemsValue = cartItems.reduce((total, item) => {
+    return (total += item.amount * item.value)
+  }, 0)
+
+  const totalItemsValueFormatted = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(totalItemsValue)
+
+  const totalValue = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(totalItemsValue + deliveryValue)
   return (
-    <CartContainer action="">
+    <CartContainer onSubmit={handleSubmit(handleCreateNewOrder)} action="">
       <BoxContainer>
         <div>
           <h3>
@@ -34,13 +100,17 @@ export function Cart() {
           <p>Informe o endereço odne deseja receber seu pedido</p>
         </div>
         <InputContainer>
-          <TextInput type="text" placeholder="CEP" />
-          <TextInput type="text" placeholder="Rua" />
-          <TextInput type="text" placeholder="Número" />
-          <TextInput type="text" placeholder="Complemento" />
-          <TextInput type="text" placeholder="Bairro" />
-          <TextInput type="text" placeholder="Cidade" />
-          <TextInput type="text" placeholder="UF" />
+          <TextInput {...register('cep')} type="text" placeholder="CEP" />
+          <TextInput {...register('rua')} type="text" placeholder="Rua" />
+          <TextInput {...register('numero')} type="text" placeholder="Número" />
+          <TextInput
+            {...register('complemento')}
+            type="text"
+            placeholder="Complemento"
+          />
+          <TextInput {...register('bairro')} type="text" placeholder="Bairro" />
+          <TextInput {...register('cidade')} type="text" placeholder="Cidade" />
+          <TextInput {...register('uf')} type="text" placeholder="UF" />
         </InputContainer>
       </BoxContainer>
 
@@ -56,17 +126,29 @@ export function Cart() {
         </div>
 
         <ButtonsContainer>
-          <PaymentTypeButton>
+          <PaymentTypeButton
+            type="button"
+            className={payment === PaymentTypes.CREDIT ? 'selected' : ''}
+            onClick={() => setPayment(PaymentTypes.CREDIT)}
+          >
             <CreditCard size={16} />
             CARTÃO DE CRÉDITO
           </PaymentTypeButton>
 
-          <PaymentTypeButton>
+          <PaymentTypeButton
+            type="button"
+            className={payment === PaymentTypes.DEBIT ? 'selected' : ''}
+            onClick={() => setPayment(PaymentTypes.DEBIT)}
+          >
             <Bank size={16} />
             CARTÃO DE DÉBITO
           </PaymentTypeButton>
 
-          <PaymentTypeButton>
+          <PaymentTypeButton
+            type="button"
+            className={payment === PaymentTypes.MONEY ? 'selected' : ''}
+            onClick={() => setPayment(PaymentTypes.MONEY)}
+          >
             <Money size={16} />
             DINHEIRO
           </PaymentTypeButton>
@@ -83,15 +165,15 @@ export function Cart() {
 
           <CartListFooter>
             <div>
-              <p>Total de itens</p> <span>R$ 29,70</span>
+              <p>Total de itens</p> <span>{totalItemsValueFormatted}</span>
             </div>
             <div>
-              <p>Entrega</p> <span>R$ 3,50</span>
+              <p>Entrega</p> <span>{deliveryValueFormatted}</span>
             </div>
             <div className="total">
-              <p>Total</p> <span>R$ 33,20</span>
+              <p>Total</p> <span>{totalValue}</span>
             </div>
-            <button>CONFIRMAR PEDIDO</button>
+            <button type="submit">CONFIRMAR PEDIDO</button>
           </CartListFooter>
         </BoxContainer>
       </div>

@@ -3,9 +3,6 @@ import styled from 'styled-components'
 interface BoxContainerProps {
   customBorder?: boolean
 }
-interface PaymentTypeButtonProps {
-  selected?: boolean
-}
 
 export const CartContainer = styled.form`
   display: grid;
@@ -99,9 +96,10 @@ export const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
+  margin-top: 2rem;
 `
 
-export const PaymentTypeButton = styled.button<PaymentTypeButtonProps>`
+export const PaymentTypeButton = styled.button`
   background: ${(props) => props.theme['base-button']};
   color: ${(props) => props.theme['base-text']};
   font-size: 0.75rem;
@@ -118,11 +116,16 @@ export const PaymentTypeButton = styled.button<PaymentTypeButtonProps>`
   svg {
     color: ${(props) => props.theme.purple};
   }
+
+  &.selected {
+    border: 1px solid ${(props) => props.theme.purple};
+    background: ${(props) => props.theme['purple-light']};
+  }
 `
 
 export const CartList = styled.ul`
   list-style: none;
-  max-height: 25rem;
+  max-height: 17.6rem;
   overflow-y: auto;
 `
 

@@ -1,7 +1,7 @@
-import { ShoppingCart, ShoppingCartSimple } from 'phosphor-react'
+import { ShoppingCartSimple } from 'phosphor-react'
 import { useContext, useState } from 'react'
-import { CartContext } from '../../contexts/CartContext'
-import { AmountInput } from '../AmountInput'
+import { CartContext } from '../../../../contexts/CartContext'
+import { AmountInput } from '../../../../components/AmountInput'
 import { CardContainer, CartButton, Footer, Label } from './styles'
 
 interface CoffeeCardProps {

@@ -1,14 +1,34 @@
 import { Trash } from 'phosphor-react'
-import { useState } from 'react'
-import { CartItem } from '../../reducers/cart/reducer'
-import { AmountInput } from '../AmountInput'
+import { useContext, useState } from 'react'
+import { CartItem } from '../../../../reducers/cart/reducer'
+import { AmountInput } from '../../../../components/AmountInput'
 import { CartItemContainer, RemoveButton } from './styles'
+import { CartContext } from '../../../../contexts/CartContext'
 
 export function CartItemCard({ imageURL, amount, id, title, value }: CartItem) {
+  const { removeItem, addItem, removeFullItemFromCart } =
+    useContext(CartContext)
   const [itemAmount, setItemAmount] = useState(amount)
 
   function changeAmount(amount: number) {
-    console.log(amount)
+    setItemAmount(amount)
+    if (amount < itemAmount) {
+      removeItem({
+        id,
+        title,
+        value,
+        imageURL,
+        amount,
+      })
+    } else {
+      addItem({
+        id,
+        title,
+        value,
+        imageURL,
+        amount: 1,
+      })
+    }
   }
 
   const formattedValue = new Intl.NumberFormat('pt-BR', {
@@ -27,7 +47,10 @@ export function CartItemCard({ imageURL, amount, id, title, value }: CartItem) {
 
         <div className="buttons">
           <AmountInput amount={itemAmount} changeAmount={changeAmount} />
-          <RemoveButton type="button">
+          <RemoveButton
+            type="button"
+            onClick={() => removeFullItemFromCart(id)}
+          >
             <Trash size={16}></Trash>
             REMOVER
           </RemoveButton>

@@ -9,7 +9,7 @@ import {
 import CoffeeImage from '../../assets/Coffee-image.svg'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
 import { coffeeData } from '../../utils/mock-data'
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { CoffeeCard } from './components/CoffeeCard'
 export function Home() {
   return (
     <HomeContainer>

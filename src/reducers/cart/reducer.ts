@@ -16,7 +16,7 @@ export function cartItemsReducer(state: CartItem[], action: any) {
       const itemIndex = state.findIndex((item) => {
         return item.id === action.payload.item.id
       })
-      console.log(action.payload.item)
+
       return produce(state, (draft) => {
         if (itemIndex < 0) {
           draft.push(action.payload.item)
@@ -25,6 +25,7 @@ export function cartItemsReducer(state: CartItem[], action: any) {
         }
       })
     }
+
     case ActionTypes.REMOVE_CART_ITEM: {
       const itemIndex = state.findIndex((item) => {
         return item.id === action.payload.item.id
@@ -42,6 +43,20 @@ export function cartItemsReducer(state: CartItem[], action: any) {
         }
       })
     }
+    case ActionTypes.REMOVE_FROM_CART: {
+      const itemIndex = state.findIndex((item) => {
+        return item.id === action.payload.id
+      })
+
+      if (itemIndex < 0) {
+        return state
+      }
+
+      return produce(state, (draft) => {
+        draft.splice(itemIndex, 1)
+      })
+    }
+
     default:
       return state
   }
