@@ -21,7 +21,7 @@ export function HomeHeader() {
             </span>
             <p>Compra simples e segura</p>
           </QualityItem>
-          <QualityItem bgColor="base-text">
+          <QualityItem bgColor="dark">
             <span>
               <Package size={16} weight="fill" />
             </span>

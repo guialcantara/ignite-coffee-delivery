@@ -1,20 +1,20 @@
-import { ThemeProvider } from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './Router'
 
-import { GlobalStyle } from './styles/global'
-import { defaultTheme } from './styles/themes/default'
 import { CartContextProvider } from './contexts/CartContext'
+import { ThemeContextProvider } from './contexts/ThemeContext'
+import { GlobalStyle } from './styles/global'
+import 'react-toggle/style.css'
 
 export function App() {
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeContextProvider>
       <BrowserRouter>
         <CartContextProvider>
           <Router />
         </CartContextProvider>
       </BrowserRouter>
       <GlobalStyle />
-    </ThemeProvider>
+    </ThemeContextProvider>
   )
 }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface QualityItemProps {
-  bgColor: 'purple' | 'yellow' | 'yellow-dark' | 'base-text'
+  bgColor: 'purple' | 'yellow' | 'yellow-dark' | 'dark'
 }
 
 export const TopContainer = styled.div`

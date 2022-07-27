@@ -27,6 +27,7 @@ body, input, textarea, button{
 
 button:hover{
     cursor: pointer;
+    filter: brightness(0.9)
 }
 
 `

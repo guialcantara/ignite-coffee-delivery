@@ -17,6 +17,47 @@ export const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  .toggle-custom {
+    svg {
+      color: white;
+      position: absolute;
+      top: -4px;
+    }
+
+    &.react-toggle--checked {
+      .react-toggle-track {
+        background-color: ${(props) => props.theme['base-card']};
+        svg {
+          color: ${(props) => props.theme.yellow};
+        }
+      }
+
+      .react-toggle-thumb {
+        left: 31px;
+        border-color: transparent;
+        background-color: ${(props) => props.theme.background};
+      }
+
+      &:hover {
+        .react-toggle-track {
+          background-color: ${(props) => props.theme.white};
+        }
+      }
+    }
+
+    &.react-toggle--focus .react-toggle-thumb {
+      box-shadow: none;
+    }
+
+    .react-toggle-track {
+      width: 55px;
+      background: ${(props) => props.theme['base-button']};
+      svg {
+        color: ${(props) => props.theme.purple};
+      }
+    }
+  }
 `
 
 export const Location = styled.div`
