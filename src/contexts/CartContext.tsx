@@ -1,16 +1,17 @@
 import { createContext, ReactNode, useReducer, useState } from 'react'
 import {
   addCartItem,
+  clearCart,
   removeCartItem,
   removeFromCart,
 } from '../reducers/cart/actions'
 import { CartItem, cartItemsReducer } from '../reducers/cart/reducer'
 
 interface OrderData {
-  rua: string
-  numero: number
-  bairro: string
-  cidade: string
+  street: string
+  houseNumber: number
+  district: string
+  city: string
   uf: string
   payment: string
 }
@@ -21,6 +22,7 @@ interface CartContextType {
   removeItem: (item: CartItem) => void
   removeFullItemFromCart: (id: number) => void
   createNewOrder: (data: OrderData) => void
+  clearCartItems: () => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -48,6 +50,10 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     setNewOrder(data)
   }
 
+  function clearCartItems() {
+    dispatch(clearCart())
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -57,6 +63,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         createNewOrder,
         newOrder,
         removeFullItemFromCart,
+        clearCartItems,
       }}
     >
       {children}

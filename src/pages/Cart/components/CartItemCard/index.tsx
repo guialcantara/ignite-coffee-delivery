@@ -1,9 +1,9 @@
 import { Trash } from 'phosphor-react'
 import { useContext, useState } from 'react'
-import { CartItem } from '../../../../reducers/cart/reducer'
 import { AmountInput } from '../../../../components/AmountInput'
-import { CartItemContainer, RemoveButton } from './styles'
 import { CartContext } from '../../../../contexts/CartContext'
+import { CartItem } from '../../../../reducers/cart/reducer'
+import { CartItemContainer, RemoveButton } from './styles'
 
 export function CartItemCard({ imageURL, amount, id, title, value }: CartItem) {
   const { removeItem, addItem, removeFullItemFromCart } =

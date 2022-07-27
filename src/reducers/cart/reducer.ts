@@ -43,6 +43,7 @@ export function cartItemsReducer(state: CartItem[], action: any) {
         }
       })
     }
+
     case ActionTypes.REMOVE_FROM_CART: {
       const itemIndex = state.findIndex((item) => {
         return item.id === action.payload.id
@@ -56,6 +57,9 @@ export function cartItemsReducer(state: CartItem[], action: any) {
         draft.splice(itemIndex, 1)
       })
     }
+
+    case ActionTypes.CLEAR_CART:
+      return []
 
     default:
       return state
